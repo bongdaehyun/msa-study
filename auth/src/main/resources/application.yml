@@ -8,7 +8,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:19090/eureka/
-
+  instance:
+    preferIpAddress: true
 service:
   jwt:
     access-expiration: 3600000
@@ -17,3 +18,14 @@ service:
 server:
   port: 19095
 
+logging:
+  level:
+    com.netflix.eureka: DEBUG
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
