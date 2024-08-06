@@ -16,7 +16,7 @@ import javax.crypto.SecretKey;
 @Component
 public class JwtUtil {
 
-    @Value("${service.jwt.secret-key")
+    @Value("${service.jwt.secret-key}")
     private String secretKey;
 
     public String extractToken(ServerWebExchange exchange) {
@@ -31,8 +31,10 @@ public class JwtUtil {
 
     public boolean validateToken(String token, ServerWebExchange exchange)
     {
+        log.info("Validating token");
         try {
-            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+            log.info("secretKey :" +secretKey);
+            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
             Jws<Claims> claimsJws = Jwts.parser()
                     .verifyWith(key)
                     .build().parseClaimsJws(token);
@@ -45,6 +47,7 @@ public class JwtUtil {
                     .build();
             return true;
         }catch (Exception e) {
+            log.warn(e.getMessage());
             return false;
         }
     }

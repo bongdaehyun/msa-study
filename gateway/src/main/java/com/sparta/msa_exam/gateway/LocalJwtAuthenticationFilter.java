@@ -19,6 +19,7 @@ import javax.crypto.SecretKey;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class LocalJwtAuthenticationFilter implements GlobalFilter {
 
     private final JwtUtil jwtUtil;
@@ -31,6 +32,8 @@ public class LocalJwtAuthenticationFilter implements GlobalFilter {
         }
 
         String token = jwtUtil.extractToken(exchange);
+
+        log.info("token: " + token);
 
         if(token == null || !jwtUtil.validateToken(token,exchange)) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
