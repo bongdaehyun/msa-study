@@ -27,17 +27,21 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${spring.application.name}")
+
     private String issuer;
 
-    @Value("${service.jwt.access-expiration}")
     private Long accesExpiration;
 
     private final SecretKey secretKey;
 
-    public AuthService(@Value("${service.jwt.secret-key}") String secretKey, AuthRepository authRepository
+    public AuthService(@Value("${service.jwt.secret-key}") String secretKey,
+                       @Value("${service.jwt.access-expiration}") Long accesExpiration,
+                       @Value("${spring.application.name}") String issuer,
+                       AuthRepository authRepository
             , PasswordEncoder passwordEncoder) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
+        this.accesExpiration = accesExpiration;
+        this.issuer = issuer;
         this.authRepository = authRepository;
         this.passwordEncoder = passwordEncoder;
     }
