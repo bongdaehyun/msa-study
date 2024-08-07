@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: order-service
+  config:
+    activate:
+      on-profile: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/
+  instance:
+    metadata-map:
+      port: 19092
+server:
+  port: 19092
+
+logging:
+  level:
+    com.netflix.eureka: DEBUG
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
