@@ -10,3 +10,32 @@
      - jwt토큰을 이용하여 검증된 사용자만이 접근가능하도록 하면 될 거 같습니다.
 4. MSA 환경에서 서로의 서비스를 의존하게 되는 의존성 순환이 발생했을때 어떻게 해결할 수 있을까요 ?
 5. 분산 시스템에서의 데이터 일관성을 어떻게 유지하나요?
+
+## 추가한 내용
+1. 주문에 상품을 추가할때 상품목록 조회 API를 이용하지 않고 해당 id에 대한 값들을 가져와서 검증
+```java
+//in OrderService
+        //상품 목록 존재 검증
+        for(OrderItemDto orderItemDto : requestDto.getOrderItems()) {
+            ProductResponseDto productResponseDto = productClient.getProductById(orderItemDto.getProduct_id());
+            if (productResponseDto == null) {
+                throw new IllegalArgumentException("존재하지 않는 상품ID 입니다.");
+            }
+        }
+```
+
+2. 주문 단건 조회시 querydsl이용
+- findById를 이용하면 Order와 연관되어있는 OrderItem까지 2번의 쿼리가 실행
+- 쿼리 한번으로 조회하기 위하여 querydsl의 fetchjoin사용
+```java
+public Order findOrderAndItemById(Long orderId) {
+
+        return jpaQueryFactory.selectFrom(QOrder.order)
+                .leftJoin(QOrder.order.product_ids,QOrderItem.orderItem).fetchJoin()
+                .where(
+                        QOrder.order.orderId.eq(orderId)
+                )
+                .fetchOne();
+
+    }
+```
