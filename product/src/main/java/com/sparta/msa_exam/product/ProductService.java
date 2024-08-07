@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +33,15 @@ public class ProductService {
         if(saveProduct == null){
             throw new RuntimeException("Product not created");
         }
+    }
+
+    public ProductResponseDto getProductById(Long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+
+        if(product.isPresent()){
+            return Product.toProductResponseDto(product.get());
+        }
+
+        return null;
     }
 }
