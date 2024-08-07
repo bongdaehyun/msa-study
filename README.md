@@ -39,3 +39,22 @@ public Order findOrderAndItemById(Long orderId) {
 
     }
 ```
+
+# 구현한 기능들
+## Product
+1. 상품 추가 API
+2. 상품 목록 조회 API
+3. 상품 ID로 조회 API
+
+## Order
+1. 주문 추가 API
+2. 주문에 상품 추가하는 API
+3. 주문 단건 조회 API
+
+## Auth
+1. 로그인(db연결 X)
+2. 회원가입 (db와 연결) 
+
+## Gateway
+1. JWT 검증 로직,인증 구현
+2. Response header 에 server port 추가 
