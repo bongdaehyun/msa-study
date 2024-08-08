@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -82,7 +83,23 @@ class ProductServiceTest {
 
         //when
         assertDoesNotThrow( () -> productService.createProduct(responseDto));
+    }
 
+    @Test
+    @DisplayName("상품 id로 조회")
+    void test4(){
+        Product product = Product.builder()
+                .product_id(1L)
+                .name("test")
+                .supply_price(1234)
+                .build();
+
+        given(productRepository.findById(product.getProduct_id())).willReturn(Optional.of(product));
+
+        ProductResponseDto dto = productService.getProductById(product.getProduct_id());
+
+        assertEquals(dto.getName(), product.getName());
+        assertEquals(dto.getSupply_price(), product.getSupply_price());
 
     }
 }
