@@ -23,6 +23,7 @@ public class Order {
     private String name;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,orphanRemoval = true)
+    @Builder.Default
     private List<OrderItem> product_ids = new ArrayList<>();
 
     public static Order createOrder(OrderRequestDto requestDto)
