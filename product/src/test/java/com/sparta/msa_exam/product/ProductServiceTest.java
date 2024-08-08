@@ -101,5 +101,6 @@ class ProductServiceTest {
         assertEquals(dto.getName(), product.getName());
         assertEquals(dto.getSupply_price(), product.getSupply_price());
 
+
     }
 }
