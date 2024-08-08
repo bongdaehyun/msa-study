@@ -2,7 +2,6 @@ package com.sparta.msa_exam.order.orders;
 
 import com.sparta.msa_exam.order.client.ProductClient;
 import com.sparta.msa_exam.order.client.ProductResponseDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +28,7 @@ class OrderServiceTest {
 
     @Test
     @DisplayName("주문 추가 성공 ")
-    void test1(){
+    void testCreateOrderSuccess(){
         OrderRequestDto requestDto = new OrderRequestDto("test",new ArrayList<>());
         requestDto.getOrderItems().add(new OrderItemDto(1L));
         Order order = Order.createOrder(requestDto);
@@ -47,8 +46,8 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("주문 추가 실패 ")
-    void test2(){
+    @DisplayName("존재하지 않는 상품을 주문시 추가 실패 ")
+    void testCreateOrderUnsuccessful(){
         OrderRequestDto requestDto = new OrderRequestDto("test",new ArrayList<>());
         requestDto.getOrderItems().add(new OrderItemDto(1L));
 
@@ -64,7 +63,7 @@ class OrderServiceTest {
 
     @Test
     @DisplayName("주문 조회 성공 ")
-    void test3(){
+    void testFindOrderSuccess(){
         Order order = new Order(1L,"test",new ArrayList<>());
 
         given(orderRepository.findOrderAndItemById(1L)).willReturn(order);
@@ -77,8 +76,8 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("주문 조회 실패 ")
-    void test4(){
+    @DisplayName("존재하지 않는 주문을 조회시 실패 ")
+    void testFindOrderUnsuccessful(){
         Order order = new Order(1L,"test",new ArrayList<>());
 
         given(orderRepository.findOrderAndItemById(1L)).willReturn(null);

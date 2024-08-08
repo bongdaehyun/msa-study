@@ -34,7 +34,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("상품 목록 조회 테스트")
-    void test1(){
+    void testGetAllProducts(){
         //given
         Product product1 = new Product(1L, "test1",1000);
         Product product2 = new Product(2L, "test2",2000);
@@ -56,7 +56,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("상품 생성 실패")
-    void test2(){
+    void testCreateProductUnsuccessful(){
         ProductRequestDto responseDto = new ProductRequestDto("test",1000);
 
         given(productRepository.save(any(Product.class))).willReturn(null);
@@ -72,7 +72,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("상품 생성 성공")
-    void test3(){
+    void testCreateProductSuccessful(){
         ProductRequestDto responseDto = new ProductRequestDto("test",1000);
         Product product = Product.builder()
                 .name(responseDto.getName())
@@ -87,7 +87,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("상품 id로 조회")
-    void test4(){
+    void testGetProductById(){
         Product product = Product.builder()
                 .product_id(1L)
                 .name("test")
