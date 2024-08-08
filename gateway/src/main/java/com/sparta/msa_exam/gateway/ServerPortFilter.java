@@ -2,7 +2,6 @@ package com.sparta.msa_exam.gateway;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -40,6 +39,7 @@ public class ServerPortFilter implements GlobalFilter {
                 log.info("serviceId : {}", serviceId);
 
                 List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
                 if (!instances.isEmpty()) {
                     ServiceInstance instance = instances.get(0);
                     String port = String.valueOf(instance.getPort());
