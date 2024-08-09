@@ -1,11 +1,15 @@
 package com.sparta.msa_exam.product.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Data
 @Builder
-public class ProductResponseDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+public class ProductResponseDto implements Serializable {
     private Long product_id;
 
     private String name;
