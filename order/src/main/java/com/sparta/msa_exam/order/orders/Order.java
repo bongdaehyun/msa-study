@@ -50,4 +50,13 @@ public class Order {
                 .map(OrderItem::toOrderItemDto).toList();
         return new OrderResponseDto(order.getOrderId(),lists);
     }
+
+    public void updateItem(Long productId) {
+        OrderItem orderItem = OrderItem.builder()
+                .product_id(productId)
+                .order(this)
+                .build();
+
+        product_ids.add(orderItem);
+    }
 }
