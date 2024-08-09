@@ -35,10 +35,7 @@ public class CacheConfig {
                 .computePrefixWith(CacheKeyPrefix.simple())
                 // 캐시에 저장할 값을 어떻게 직렬화 / 역직렬화 할것인지
                 .serializeValuesWith(
-                        //SerializationPair.fromSerializer(RedisSerializer.java())
-
-                        SerializationPair.fromSerializer(RedisSerializer.json())
-
+                        SerializationPair.fromSerializer(RedisSerializer.java())
                 );
 
         return RedisCacheManager
