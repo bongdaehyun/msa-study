@@ -16,11 +16,20 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    /***
+     * 모든 상품 조회
+     * @return
+     */
     public List<ProductResponseDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(Product::toProductResponseDto).toList();
     }
 
+
+    /***
+     * 상품 추가 API
+     * @param requestDto
+     */
     @Transactional
     public void createProduct(ProductRequestDto requestDto) {
         Product createProduct = Product.builder()
@@ -35,6 +44,11 @@ public class ProductService {
         }
     }
 
+    /**
+     * 상품 ID로 상품조회 API
+     * @param productId
+     * @return ProductResponseDto
+     */
     public ProductResponseDto getProductById(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
 
