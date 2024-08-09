@@ -16,8 +16,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
 
+    /***
+     * 주문 추가하는 API
+     * @param requestDto
+     * @return Order
+     */
     @Transactional
-    public Order createOrder(OrderRequestDto requestDto) {
+    public OrderResponseDto createOrder(OrderRequestDto requestDto) {
 
         //상품 목록 존재 검증
         for(OrderItemDto orderItemDto : requestDto.getOrderItems()) {
@@ -29,14 +34,24 @@ public class OrderService {
 
         Order newOrder = Order.createOrder(requestDto);
         orderRepository.save(newOrder);
-        return newOrder;
+
+        return Order.toOrderResponseDto(newOrder);
     }
-    @Cacheable(value = "orderCache", key = "#orderId")
+
+
+    /***
+     * 주문의 상세한 정보 조회 API
+     * @param orderId
+     * @return OrderResponseDto
+     * 캐시기능 추가 : 60초동안 redis에서 관리
+     */
+    @Cacheable(value = "orderCache", key = "args[0]")
     @Transactional(readOnly = true)
     public OrderResponseDto getOrderDetail(long orderId) {
         log.info("getOrderDetail 실행~~~");
         //해당 order 존재 검증
         Order order = orderRepository.findOrderAndItemById(orderId);
+
         if(order == null) {
             throw new IllegalArgumentException("잘못된 상품번호 입니다.");
         }

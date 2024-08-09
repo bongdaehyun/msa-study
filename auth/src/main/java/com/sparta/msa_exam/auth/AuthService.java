@@ -46,6 +46,10 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /***
+     * 회원가입 API
+     * @param requestDto
+     */
     @Transactional
     public void signUp(SignUpRepuestDto requestDto)
     {
@@ -67,6 +71,12 @@ public class AuthService {
         authRepository.save(user);
     }
 
+    /***
+     * 로그인 API
+     * @param requestDto
+     * @return jwt_token
+     * 로그인 DB에 연결시 사용
+     */
     public String signIn(SignInRequestDto requestDto)
     {
         User user = authRepository.findByUsername(requestDto.getUsername()).orElseThrow(
@@ -79,6 +89,12 @@ public class AuthService {
         return createAccessToken(user.getUsername(),user.getRole());
     }
 
+    /***
+     * JWT TOKEN 생성
+     * @param username
+     * @param role
+     * @return token
+     */
     public String createAccessToken(String username, UserRole role) {
         return Jwts.builder()
                 .claim("username",username)
