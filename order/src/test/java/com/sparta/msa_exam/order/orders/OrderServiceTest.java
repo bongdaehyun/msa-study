@@ -37,10 +37,10 @@ class OrderServiceTest {
         ProductResponseDto productResponseDto = new ProductResponseDto();
         given(productClient.getProductById(1L)).willReturn(productResponseDto);
 
-        Order newOrder = orderService.createOrder(requestDto);
+        OrderResponseDto newOrder = orderService.createOrder(requestDto);
 
         assertNotNull(newOrder);
-        assertEquals(order.getOrderId(), newOrder.getOrderId());
+        assertEquals(order.getOrderId(), newOrder.getOrder_id());
         assertEquals(order.getProduct_ids().size(), newOrder.getProduct_ids().size());
 
     }
