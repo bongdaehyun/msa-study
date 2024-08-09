@@ -67,8 +67,6 @@ public class OrderService {
      * @param orderId
      * @param requestDto : product_id
      */
-    @CachePut(cacheNames = "orderCache", key = "#orderId")
-    //@CacheEvict(allEntries = true)
     @Transactional
     public void updateOrderItem(long orderId, AddItemRequestDto requestDto) {
         //주문 찾기
