@@ -1,3 +1,11 @@
+# 사용한 SKILLS
+- SpringBoot 3.3.2 version
+- Redis
+- Zipkin
+- Spring Data JPA , QueryDSL
+- gateway
+- eureka
+
 # 생각해봐야될 질문들
 1. 레거시 모놀리식 서비스를 MSA 로 전환한다고 할 때, 어떠한 이유가 있을 수 있을까요 ?
      - 모놀리식 서비스는 하나의 서비스에서 에러가 발생하면 전체 서비스가 동작을 멈추게 됩니다. 그래서 독립적인 서비스의 형태를 가져 안정성을 높힐 수 있습니다.
@@ -88,7 +96,7 @@ String port = String.valueOf(instance.getPort());
 
 ## Gateway
 1. JWT 검증 로직,인증 구현
-2. Response header 에 server port 추가 
+2. Response header 에 server port 추가
 
 # 과제하면서 어려웠던 점
 1. 주문이나 상품에 성공적으로 추가한 케이스는 어떻게 테스트코드를 짜야되는지
