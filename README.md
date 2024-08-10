@@ -19,7 +19,7 @@
    - 그리고 데이터에 따른 버전을 관리하면서 충돌을 대비해야될 거 같다.
 
 ## 추가한 내용
-1. 주문에 상품을 추가할때 상품목록 조회 API를 이용하지 않고 해당 id에 대한 값들을 가져와서 검증
+1. 주문에 추가할때 상품목록 조회 API를 이용하지 않고 해당 id에 대한 값들을 가져와서 검증
 ```java
 //in OrderService
         //상품 목록 존재 검증
@@ -45,6 +45,30 @@ public Order findOrderAndItemById(Long orderId) {
                 .fetchOne();
 
     }
+
+3. gateway에서 response header에 실행되는 서비스의 server port 추가
+        
+```java
+//ServerPortFilter
+Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
+            if (route != null) {
+String serviceId = route.getId();
+                log.info("serviceId : {}", serviceId);
+
+List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+
+                if (!instances.isEmpty()) {
+ServiceInstance instance = instances.get(0);
+String port = String.valueOf(instance.getPort());
+                    log.info("Service: {}, Host: {}, Port: {}", serviceId, instance.getHost(), port);
+        exchange.getResponse().getHeaders().add("Server-Port", port);
+                } else {
+                        log.warn("NOT FOUND INSTANCES {}", serviceId);
+                }
+                        } else {
+                        log.warn("NOT FOUND ROUTE IN GATEWAY");
+            }
+
 ```
 
 # 구현한 기능들
