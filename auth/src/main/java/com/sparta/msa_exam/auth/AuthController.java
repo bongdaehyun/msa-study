@@ -33,9 +33,13 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<?> verify(@RequestParam String username){
-        authService.verifyUser(username);
-        return ResponseEntity.ok(true);
+    public ResponseEntity<?> verifyUser(@RequestParam String username){
+
+        if(authService.verifyUser(username))
+        {
+            return ResponseEntity.ok(authService.verifyUser(username));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("false");
     }
 
 }
