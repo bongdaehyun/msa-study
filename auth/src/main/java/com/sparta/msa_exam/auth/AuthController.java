@@ -32,4 +32,10 @@ public class AuthController {
 
     }
 
+    @GetMapping("/verify")
+    public ResponseEntity<?> verify(@RequestParam String username){
+        authService.verifyUser(username);
+        return ResponseEntity.ok(true);
+    }
+
 }
