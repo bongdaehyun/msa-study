@@ -27,18 +27,27 @@ public class LocalJwtAuthenticationFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
-        if(path.startsWith("/auth") || path.startsWith("/cart")){
+        if(path.startsWith("/auth")){
             return chain.filter(exchange);
         }
 
         String token = jwtUtil.extractToken(exchange);
 
-        log.info("token: " + token);
+        if(path.startsWith("/cart") )
+        {
+            if(token != null && jwtUtil.validateToken(token,exchange)) {
 
-        if(token == null || !jwtUtil.validateToken(token,exchange)) {
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            return exchange.getResponse().setComplete();
+                return chain.filter(exchange);
+            }
         }
+        else {
+            if(token == null || !jwtUtil.validateToken(token,exchange)) {
+
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
+        }
+
 
         return chain.filter(exchange);
     }
