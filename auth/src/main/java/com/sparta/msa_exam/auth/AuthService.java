@@ -23,15 +23,11 @@ import java.util.Date;
 public class AuthService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
+
     private final AuthRepository authRepository;
-
     private final PasswordEncoder passwordEncoder;
-
-
-    private String issuer;
-
-    private Long accesExpiration;
-
+    private final String issuer;
+    private final Long accesExpiration;
     private final SecretKey secretKey;
 
     public AuthService(@Value("${service.jwt.secret-key}") String secretKey,
@@ -106,4 +102,8 @@ public class AuthService {
                 .compact();
     }
 
+    public boolean verifyUser(String username)
+    {
+        return authRepository.findByUsername(username).isPresent();
+    }
 }

@@ -21,8 +21,7 @@ public class AuthConfig {
 
                 .authorizeRequests(authorize -> authorize
 
-                        .requestMatchers("/auth/signIn").permitAll()
-                        .requestMatchers("/auth/signUp").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
