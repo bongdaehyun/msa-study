@@ -96,8 +96,13 @@ public class CartService {
 
             cartRepository.save(cart);
             //레디스에 있는 값제거
-            //log.info("saved to db" + keyString.formatted(sessionId));
-            //hashOps.delete(keyString.formatted(sessionId));
+            log.info("saved to db" + keyString.formatted(sessionId));
+            if( keyString.formatted(sessionId) != null){
+                hashOps.delete(keyString.formatted(sessionId));
+            }else{
+                log.warn("Redis key is either null or does not exist: " + keyString.formatted(sessionId));
+            }
+
         }
 
     }
